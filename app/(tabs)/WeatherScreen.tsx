@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 type Weather = {
   temperature: number;
@@ -40,7 +40,7 @@ export default function WeatherScreen() {
 
       setWeather(weatherData.current_weather);
     } catch (error) {
-      console.error(error); 
+      console.error(error);
       Alert.alert('Lỗi', 'Không lấy được dữ liệu thời tiết');
     } finally {
       setLoading(false);
@@ -49,20 +49,23 @@ export default function WeatherScreen() {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Tra cứu thời tiết</Text>
       <TextInput
         style={styles.input}
         placeholder="Nhập tên thành phố"
         value={city}
         onChangeText={setCity}
       />
-      <Button title="Xem thời tiết" onPress={fetchWeather} />
+      <TouchableOpacity style={styles.button} onPress={fetchWeather}>
+        <Text style={styles.buttonText}>Xem thời tiết</Text>
+      </TouchableOpacity>
 
-      {loading && <Text style={styles.loading}>Đang tải…</Text>}
+      {loading && <ActivityIndicator size="large" color="#007AFF" style={{ marginTop: 20 }} />}
 
       {weather && (
-        <View style={styles.result}>
-          <Text>Nhiệt độ hiện tại: {weather.temperature}°C</Text>
-          <Text>Tốc độ gió: {weather.windspeed} km/h</Text>
+        <View style={styles.resultCard}>
+          <Text style={styles.resultText}>Nhiệt độ hiện tại: {weather.temperature}°C</Text>
+          <Text style={styles.resultText}>Tốc độ gió: {weather.windspeed} km/h</Text>
         </View>
       )}
     </View>
@@ -70,8 +73,64 @@ export default function WeatherScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  input: { borderWidth: 1, borderColor: '#ccc', padding: 10, marginBottom: 10 },
-  loading: { marginTop: 10, fontSize: 16 },
-  result: { marginTop: 20, fontSize: 16 },
+  container: {
+    flex: 1,
+    backgroundColor: '#eef2f7',
+    padding: 20,
+    justifyContent: 'flex-start',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#333',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    backgroundColor: '#fff',
+    borderRadius: 25,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    fontSize: 16,
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  button: {
+    backgroundColor: '#007AFF',
+    paddingVertical: 14,
+    borderRadius: 25,
+    alignItems: 'center',
+    shadowColor: '#007AFF',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  resultCard: {
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 20,
+    marginTop: 30,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.15,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  resultText: {
+    fontSize: 18,
+    marginBottom: 10,
+    color: '#333',
+  },
 });
