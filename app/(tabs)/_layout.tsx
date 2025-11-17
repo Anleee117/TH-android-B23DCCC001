@@ -1,13 +1,13 @@
+import { HapticTab } from '@/components/haptic-tab';
+import { Colors } from '@/constants/theme';
+import { useColorScheme } from '@/hooks/use-color-scheme';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const ICON_SIZE = 28;
 
   return (
     <Tabs
@@ -15,19 +15,38 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
         tabBarButton: HapticTab,
-      }}>
+      }}
+    >
       <Tabs.Screen
-        name="index"
+        name="TextInputScreen"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: 'Bai1',
+          tabBarIcon: ({ color }) => <Ionicons name="home" size={ICON_SIZE} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="ClickCounterScreen"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Bai2',
+          tabBarIcon: ({ color }) => <Ionicons name="search" size={ICON_SIZE} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="WeatherScreen"
+        options={{
+          title: 'Bai3',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="weather-partly-cloudy" size={ICON_SIZE} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="TodoScreen"
+        options={{
+          title: 'Bai4',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="clipboard-check-outline" size={ICON_SIZE} color={color} />
+          ),
         }}
       />
     </Tabs>
